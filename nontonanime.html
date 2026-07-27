@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NontonAnime — Movixa</title>
+<meta name="description" content="Nonton anime sub Indonesia terbaru dan terlengkap." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased" data-page="nontonanime">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<section class="relative pt-28 pb-10 overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-amber-400/10 via-ink to-ink"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+    <div class="eyebrow mb-2">Anime Sub Indonesia</div>
+    <h1 class="font-display text-4xl sm:text-5xl mb-3">NontonAnime</h1>
+    <p class="text-paper/50 max-w-xl">Streaming anime sub Indonesia, episode terbaru diperbarui setiap hari.</p>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-20">
+
+  <section class="mb-12">
+    <div class="eyebrow mb-2">Update Hari Ini</div>
+    <h2 class="font-display text-2xl sm:text-3xl mb-6">Episode Terbaru</h2>
+    <div id="railLatest" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <section class="mb-12">
+    <div class="eyebrow mb-2">Trending</div>
+    <h2 class="font-display text-2xl sm:text-3xl mb-6">Ongoing Populer</h2>
+    <div id="railOngoing" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <h2 class="font-display text-2xl sm:text-3xl">Semua Anime</h2>
+    <div class="flex items-center gap-3 w-full sm:w-auto">
+      <div class="relative flex-1 sm:flex-none">
+        <select id="genreSelect" class="w-full sm:w-56 bg-white/5 border border-white/10 rounded-full pl-4 pr-9 py-2.5 text-sm font-semibold outline-none focus:border-amber-400/50 appearance-none">
+          <option value="">Semua Genre</option>
+        </select>
+        <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-paper/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div id="animeGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+
+  <div id="pagination" class="flex items-center justify-center gap-3 mt-12"></div>
+
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/nontonanime.js"></script>
+</body>
+</html>

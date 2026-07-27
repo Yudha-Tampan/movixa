@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My List — Movixa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-20">
+  <div class="mb-8 flex items-end justify-between flex-wrap gap-4">
+    <div>
+      <div class="eyebrow mb-2">Saved For Later</div>
+      <h1 class="font-display text-4xl sm:text-5xl">My List</h1>
+    </div>
+  </div>
+
+  <div id="tabRow" class="flex gap-2 mb-10">
+    <button data-tab="watchlist" class="tab-pill active px-5 py-2.5 rounded-full text-sm font-bold"><span class="tab-bg marquee-gradient"></span>Watchlist</button>
+    <button data-tab="history" class="tab-pill px-5 py-2.5 rounded-full text-sm font-bold bg-white/5 text-paper/70"><span class="tab-bg marquee-gradient"></span>Recently Watched</button>
+  </div>
+
+  <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+  <div id="emptyState" class="hidden text-center py-24">
+    <p class="font-display text-2xl text-paper/40 mb-2">Nothing here yet</p>
+    <p class="text-paper/40 text-sm mb-6">Titles you save or watch will show up here.</p>
+    <a href="/home.html" class="inline-flex marquee-gradient text-ink font-extrabold px-6 py-3 rounded-full text-sm">Browse titles</a>
+  </div>
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script>
+(function () {
+  let currentTab = 'watchlist';
+
+  function setActiveTab(tab) {
+    document.querySelectorAll('.tab-pill').forEach((btn) => {
+      if (btn.dataset.tab === tab) { btn.classList.add('active'); btn.classList.remove('bg-white/5', 'text-paper/70'); }
+      else { btn.classList.remove('active'); btn.classList.add('bg-white/5', 'text-paper/70'); }
+    });
+  }
+
+  function render() {
+    setActiveTab(currentTab);
+    const items = currentTab === 'watchlist' ? Store.getWatchlist() : Store.getHistory();
+    if (items.length === 0) {
+      document.getElementById('movieGrid').innerHTML = '';
+      document.getElementById('emptyState').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('emptyState').classList.add('hidden');
+    grid('movieGrid', items);
+  }
+
+  document.querySelectorAll('.tab-pill').forEach((btn) => {
+    btn.addEventListener('click', () => { currentTab = btn.dataset.tab; render(); });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

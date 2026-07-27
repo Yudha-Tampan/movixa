@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Search — Movixa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-20">
+  <div class="mb-8">
+    <div class="eyebrow mb-2">Search Results</div>
+    <h1 id="searchTitle" class="font-display text-3xl sm:text-5xl">&nbsp;</h1>
+    <p id="searchCount" class="text-paper/50 mt-2"></p>
+  </div>
+
+  <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+  <div id="emptyState" class="hidden text-center py-24">
+    <p class="font-display text-2xl text-paper/40 mb-2">No results found</p>
+    <p class="text-paper/40 text-sm">Try a different title, actor, or keyword.</p>
+  </div>
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script>
+(async function () {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q') || '';
+
+  document.getElementById('searchTitle').textContent = q ? `"${q}"` : 'Type something to search';
+  const navInput = document.getElementById('navSearchInput');
+  if (navInput) navInput.value = q;
+
+  if (!q) return;
+
+  gridSkeleton('movieGrid');
+
+  try {
+    const data = await API.search(q);
+    if (!data.results || data.results.length === 0) {
+      document.getElementById('movieGrid').innerHTML = '';
+      document.getElementById('emptyState').classList.remove('hidden');
+      document.getElementById('searchCount').textContent = '0 results';
+      return;
+    }
+    document.getElementById('searchCount').textContent = `${data.total_results} result${data.total_results === 1 ? '' : 's'} found`;
+    grid('movieGrid', data.results);
+  } catch (e) {
+    document.getElementById('movieGrid').innerHTML = `<div class="col-span-full text-center py-20 text-crimson-300">Search failed. Please try again.</div>`;
+  }
+})();
+</script>
+</body>
+</html>

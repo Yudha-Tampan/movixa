@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Movies — Movixa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-20">
+  <div class="mb-8">
+    <div class="eyebrow mb-2">The Catalog</div>
+    <h1 class="font-display text-4xl sm:text-5xl">Movies</h1>
+  </div>
+
+  <div id="filterTabs" class="flex gap-2 mb-10 overflow-x-auto no-scrollbar">
+    <button data-filter="popular" class="tab-pill active px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap"><span class="tab-bg marquee-gradient"></span>Popular</button>
+    <button data-filter="now_playing" class="tab-pill px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap bg-white/5 text-paper/70"><span class="tab-bg marquee-gradient"></span>Now Playing</button>
+    <button data-filter="top_rated" class="tab-pill px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap bg-white/5 text-paper/70"><span class="tab-bg marquee-gradient"></span>Top Rated</button>
+    <button data-filter="upcoming" class="tab-pill px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap bg-white/5 text-paper/70"><span class="tab-bg marquee-gradient"></span>Upcoming</button>
+  </div>
+
+  <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+
+  <div id="pagination" class="flex items-center justify-center gap-3 mt-12"></div>
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/catalog.js" data-mode="movies"></script>
+</body>
+</html>

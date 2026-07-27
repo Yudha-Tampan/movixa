@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Top IMDb — Movixa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-28 pb-20">
+  <div class="mb-8">
+    <div class="eyebrow mb-2">The Charts</div>
+    <h1 class="font-display text-4xl sm:text-5xl">Top IMDb Rankings</h1>
+    <p class="text-paper/50 mt-2 max-w-xl">The highest rated titles, ranked by score.</p>
+  </div>
+
+  <div id="filterTabs" class="flex gap-2 mb-10">
+    <button data-type="movie" class="tab-pill active px-5 py-2.5 rounded-full text-sm font-bold"><span class="tab-bg marquee-gradient"></span>Movies</button>
+    <button data-type="tv" class="tab-pill px-5 py-2.5 rounded-full text-sm font-bold bg-white/5 text-paper/70"><span class="tab-bg marquee-gradient"></span>TV Shows</button>
+  </div>
+
+  <div id="movieGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+
+  <div id="pagination" class="flex items-center justify-center gap-3 mt-12"></div>
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script>
+(function () {
+  let currentType = 'movie';
+  let currentPage = 1;
+
+  function setActiveTab(type) {
+    document.querySelectorAll('.tab-pill').forEach((btn) => {
+      if (btn.dataset.type === type) {
+        btn.classList.add('active'); btn.classList.remove('bg-white/5', 'text-paper/70');
+      } else {
+        btn.classList.remove('active'); btn.classList.add('bg-white/5', 'text-paper/70');
+      }
+    });
+  }
+
+  function renderPagination(page, totalPages) {
+    const el = document.getElementById('pagination');
+    const tp = Math.min(totalPages, 500);
+    if (tp <= 1) { el.innerHTML = ''; return; }
+    const prevDisabled = page <= 1;
+    const nextDisabled = page >= tp;
+    el.innerHTML = `
+      <button id="prevPage" ${prevDisabled ? 'disabled' : ''} class="px-4 py-2 rounded-full text-sm font-bold border border-white/10 ${prevDisabled ? 'opacity-30 cursor-not-allowed' : 'hover:border-amber-400/50 hover:text-amber-300'}">&larr; Prev</button>
+      <span class="text-sm text-paper/60 font-semibold px-2">Page ${page} of ${tp > 500 ? '500+' : tp}</span>
+      <button id="nextPage" ${nextDisabled ? 'disabled' : ''} class="px-4 py-2 rounded-full text-sm font-bold border border-white/10 ${nextDisabled ? 'opacity-30 cursor-not-allowed' : 'hover:border-amber-400/50 hover:text-amber-300'}">Next &rarr;</button>
+    `;
+    if (!prevDisabled) document.getElementById('prevPage').addEventListener('click', () => { currentPage--; load(); });
+    if (!nextDisabled) document.getElementById('nextPage').addEventListener('click', () => { currentPage++; load(); });
+  }
+
+  async function load() {
+    gridSkeleton('movieGrid');
+    setActiveTab(currentType);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      const data = await API.topImdb(currentType, currentPage);
+      grid('movieGrid', data.results);
+      renderPagination(data.page, data.total_pages);
+    } catch (e) {
+      document.getElementById('movieGrid').innerHTML = `<div class="col-span-full text-center py-20 text-crimson-300">Failed to load. Please try again.</div>`;
+    }
+  }
+
+  document.querySelectorAll('.tab-pill').forEach((btn) => {
+    btn.addEventListener('click', () => { currentType = btn.dataset.type; currentPage = 1; load(); });
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

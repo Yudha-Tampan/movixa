@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Movixa — Stream Movies &amp; TV Shows</title>
+<meta name="description" content="Discover trending movies and series, curated charts, and instant streaming links." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14',
+          paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<section class="relative pt-16 min-h-[92vh] flex items-end overflow-hidden">
+  <div id="heroBackdrop" class="absolute inset-0 -z-20 bg-ink"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/70 to-ink/20"></div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/40 to-transparent"></div>
+  <div class="spotlight -z-10"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-16 sm:pb-24 w-full relative">
+    <div id="heroContent" class="max-w-2xl">
+      <div class="eyebrow mb-4">Trending Today</div>
+      <div class="h-14 sm:h-20 skeleton rounded-lg w-3/4 mb-4" id="heroTitleSkeleton"></div>
+      <h1 id="heroTitle" class="hidden font-display text-4xl sm:text-6xl leading-[0.95] mb-4"></h1>
+      <p id="heroOverview" class="text-paper/70 text-sm sm:text-base leading-relaxed clamp-3 mb-6"></p>
+      <div id="heroMeta" class="flex items-center gap-3 mb-7"></div>
+      <div class="flex flex-wrap gap-3">
+        <a id="heroWatchBtn" href="#" class="inline-flex items-center gap-2 marquee-gradient text-ink font-extrabold px-6 py-3.5 rounded-full text-sm hover:scale-105 transition-transform">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          Watch Now
+        </a>
+        <a id="heroInfoBtn" href="#" class="inline-flex items-center gap-2 bg-white/10 border border-white/15 font-bold px-6 py-3.5 rounded-full text-sm hover:bg-white/15 transition-colors backdrop-blur-sm">
+          More Info
+        </a>
+      </div>
+    </div>
+
+    <div id="heroPicker" class="flex gap-2 mt-12 overflow-x-auto no-scrollbar"></div>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 space-y-16">
+
+  <section>
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="eyebrow mb-2">This Week</div>
+        <h2 class="font-display text-2xl sm:text-3xl">Trending Movies</h2>
+      </div>
+      <a href="/movies.html" class="text-sm font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">See all &rarr;</a>
+    </div>
+    <div id="railTrendingMovies" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <section>
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="eyebrow mb-2">This Week</div>
+        <h2 class="font-display text-2xl sm:text-3xl">Trending Series</h2>
+      </div>
+      <a href="/tv.html" class="text-sm font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">See all &rarr;</a>
+    </div>
+    <div id="railTrendingSeries" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <section>
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="eyebrow mb-2">Timeless</div>
+        <h2 class="font-display text-2xl sm:text-3xl">All-Time Best</h2>
+      </div>
+      <a href="/top-imdb.html" class="text-sm font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">See all &rarr;</a>
+    </div>
+    <div id="railTopRated" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <section>
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="eyebrow mb-2">Coming Soon</div>
+        <h2 class="font-display text-2xl sm:text-3xl">Upcoming Releases</h2>
+      </div>
+      <a href="/movies.html?filter=upcoming" class="text-sm font-semibold text-amber-300 hover:text-amber-200 flex items-center gap-1">See all &rarr;</a>
+    </div>
+    <div id="railUpcoming" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+  <section id="continueWatchingSection" class="hidden">
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="eyebrow mb-2">Pick up where you left off</div>
+        <h2 class="font-display text-2xl sm:text-3xl">Continue Watching</h2>
+      </div>
+    </div>
+    <div id="railContinue" class="rail flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+  </section>
+
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="pageTitle">Memuat… — Movixa</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+</head>
+<body class="bg-ink text-paper antialiased">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<div id="loadingState" class="min-h-screen flex items-center justify-center pt-16">
+  <div class="text-center">
+    <div class="w-12 h-12 mx-auto mb-4 rounded-full border-2 border-white/10 border-t-amber-400 animate-spin"></div>
+    <p class="text-paper/50 text-sm">Memuat drama…</p>
+  </div>
+</div>
+
+<div id="errorState" class="hidden min-h-screen flex items-center justify-center pt-16">
+  <div class="text-center max-w-md px-6">
+    <p class="font-display text-3xl mb-3 text-crimson-300">Drama tidak ditemukan</p>
+    <p class="text-paper/50 text-sm mb-6">Judul ini mungkin sudah tidak tersedia atau server Dracin sedang bermasalah.</p>
+    <a href="/dracin.html" class="inline-flex marquee-gradient text-ink font-extrabold px-6 py-3 rounded-full text-sm">Kembali ke Dracin</a>
+  </div>
+</div>
+
+<div id="detailContent" class="hidden">
+
+  <section class="relative pt-16">
+    <div id="backdropImg" class="absolute inset-0 -z-20 bg-cover bg-center" style="background-position: center 20%;"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-ink via-ink/85 to-ink/40"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink/95 via-ink/30 to-transparent"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-10 sm:pt-16 sm:pb-16">
+      <div class="flex flex-col md:flex-row gap-8 items-start">
+        <img id="posterImg" src="" alt="" class="hidden md:block w-48 lg:w-56 rounded-xl marquee-ring shrink-0" />
+
+        <div class="flex-1 min-w-0">
+          <div id="genreTags" class="flex flex-wrap items-center gap-2.5 mb-4"></div>
+          <h1 id="titleEl" class="font-display text-3xl sm:text-5xl leading-[0.98] mb-4"></h1>
+          <p id="synopsisEl" class="text-paper/70 text-sm sm:text-base leading-relaxed max-w-2xl mb-6"></p>
+          <div id="epsCountRow" class="flex flex-wrap gap-x-8 gap-y-2 text-sm text-paper/60 mb-7"></div>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="#watch" class="inline-flex items-center gap-2 marquee-gradient text-ink font-extrabold px-6 py-3.5 rounded-full text-sm hover:scale-105 transition-transform">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              Tonton Episode 1
+            </a>
+            <button id="watchlistBtn" class="inline-flex items-center gap-2 bg-white/10 border border-white/15 font-bold px-6 py-3.5 rounded-full text-sm hover:bg-white/15 transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span id="watchlistLabel">Simpan</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-14 space-y-16">
+
+    <section id="watch">
+      <div class="eyebrow mb-2">Sedang Diputar</div>
+      <h2 id="nowPlayingTitle" class="font-display text-2xl sm:text-3xl mb-6">Episode 1</h2>
+
+      <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-ink-2 marquee-ring mb-5">
+        <video id="videoPlayer" class="w-full h-full" controls playsinline></video>
+        <div id="playerLoading" class="absolute inset-0 flex items-center justify-center bg-ink/70 hidden">
+          <div class="w-10 h-10 rounded-full border-2 border-white/10 border-t-amber-400 animate-spin"></div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 mb-3 text-xs text-paper/40 font-semibold uppercase tracking-widest">Daftar Episode</div>
+      <div id="episodeList" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"></div>
+      <p class="text-xs text-paper/30 mt-4">Video diambil langsung dari server Dracinema. Jika gagal diputar, coba muat ulang halaman.</p>
+    </section>
+
+    <section id="recommendationsSection"></section>
+
+  </main>
+</div>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/dracin-detail.js"></script>
+</body>
+</html>

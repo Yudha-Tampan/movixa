@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LiveChart — Movixa</title>
+<meta name="description" content="Jadwal rilis anime musiman, studio, tanggal tayang, dan link streaming resmi." />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0b0d14', paper: '#eae6dd',
+          amber: { 300: '#ffcf6b', 400: '#f5a524' },
+          crimson: { 400: '#e23744', 300: '#ff5c6c' }
+        },
+        fontFamily: { display: ['Anton', 'sans-serif'], sans: ['Manrope', 'sans-serif'] }
+      }
+    }
+  };
+</script>
+<link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body class="bg-ink text-paper antialiased" data-page="livechart">
+<div class="grain"></div>
+<div id="headerMount"></div>
+
+<section class="relative pt-28 pb-10 overflow-hidden">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-amber-400/10 via-ink to-ink"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+    <div class="eyebrow mb-2">Jadwal Anime Musiman</div>
+    <h1 class="font-display text-4xl sm:text-5xl mb-3">LiveChart</h1>
+    <p class="text-paper/50 max-w-xl">Jelajahi jadwal rilis anime per musim, cek studio dan tanggal tayang, tonton trailer PV, dan temukan link streaming resmi.</p>
+  </div>
+</section>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pb-24">
+
+  <form id="chartSearchForm" class="relative mb-10">
+    <input id="chartSearchInput" type="text" placeholder="Cari judul anime di LiveChart..."
+      class="w-full bg-white/5 border border-white/10 rounded-full py-3.5 pl-5 pr-12 text-sm placeholder:text-paper/40 focus:border-amber-400/50 outline-none transition-colors" />
+    <button type="submit" aria-label="Cari" class="absolute right-4 top-1/2 -translate-y-1/2 text-paper/50 hover:text-amber-300">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+    </button>
+  </form>
+
+  <section id="searchSection" class="hidden mb-12">
+    <h2 id="searchHeading" class="font-display text-2xl sm:text-3xl mb-6"></h2>
+    <div id="searchGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+  </section>
+
+  <section id="chartSection">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <h2 id="chartHeading" class="font-display text-2xl sm:text-3xl">Jadwal Musim Ini</h2>
+      <div class="flex gap-2">
+        <div class="relative">
+          <select id="seasonSelect" class="bg-white/5 border border-white/10 rounded-full pl-4 pr-9 py-2.5 text-sm font-semibold outline-none focus:border-amber-400/50 appearance-none">
+          </select>
+          <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-paper/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+        <div class="relative">
+          <select id="yearSelect" class="bg-white/5 border border-white/10 rounded-full pl-4 pr-9 py-2.5 text-sm font-semibold outline-none focus:border-amber-400/50 appearance-none">
+          </select>
+          <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-paper/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div id="chartGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5"></div>
+  </section>
+
+</main>
+
+<div id="footerMount"></div>
+
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/chrome.js"></script>
+<script src="/assets/js/livechart.js"></script>
+</body>
+</html>
